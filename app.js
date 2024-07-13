@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { Server } = require("socket.io");
-const { createServer } = require("http");
+const https = require("https");
+const fs = require('fs');
 const { v4: uuidv4 } = require("uuid");
 const { v2: cloudinary } = require("cloudinary");
 const dotenv = require("dotenv");
@@ -20,10 +21,22 @@ dotenv.config({ path: "./.env" });
 
 const port = process.env.PORT || 9000;
 const app = express();
-const server = createServer(app);
+
+// SSL configuration
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/chatapp-api-ursy.onrender.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/chatapp-api-ursy.onrender.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/chatapp-api-ursy.onrender.com/chain.pem', 'utf8');
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca
+};
+
+const server = https.createServer(credentials, app);
 const io = new Server(server, {
   cors: corsOptions,
-  path: '/socket.io', // Ensure path is set correctly
+  path: '/socket.io',
 });
 app.set("io", io);
 
