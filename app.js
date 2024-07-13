@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { Server } = require("socket.io");
-const https = require("https");
-const fs = require('fs');
+const { createServer } = require("http");
 const { v4: uuidv4 } = require("uuid");
 const { v2: cloudinary } = require("cloudinary");
 const dotenv = require("dotenv");
@@ -21,22 +20,10 @@ dotenv.config({ path: "./.env" });
 
 const port = process.env.PORT || 9000;
 const app = express();
-
-// SSL configuration
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/chatapp-frontend-rose-six.vercel.app/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/chatapp-frontend-rose-six.vercel.app/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/chatapp-frontend-rose-six.vercel.app/chain.pem', 'utf8');
-
-const credentials = {
-  key: privateKey,
-  cert: certificate,
-  ca: ca
-};
-
-const server = https.createServer(credentials, app);
+const server = createServer(app);
 const io = new Server(server, {
   cors: corsOptions,
-  path: '/socket.io',
+  path: '/socket.io', // Ensure path is set correctly
 });
 app.set("io", io);
 
