@@ -1,6 +1,7 @@
  exports.corsOptions = {
   origin: [
     "http://localhost:5173",
+    "https://chatapp-frontend-rose-six.vercel.app",
     process.env.CLIENT_URL
     
   ],

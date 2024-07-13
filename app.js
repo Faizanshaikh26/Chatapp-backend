@@ -23,9 +23,9 @@ const port = process.env.PORT || 9000;
 const app = express();
 
 // SSL configuration
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/chatapp-api-ursy.onrender.com/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/chatapp-api-ursy.onrender.com/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/chatapp-api-ursy.onrender.com/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/chatapp-frontend-rose-six.vercel.app/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/chatapp-frontend-rose-six.vercel.app/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/chatapp-frontend-rose-six.vercel.app/chain.pem', 'utf8');
 
 const credentials = {
   key: privateKey,
